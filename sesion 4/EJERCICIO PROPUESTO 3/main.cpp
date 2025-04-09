@@ -49,7 +49,7 @@ public:
         cout << "Asignaturas Matriculadas:\n";
         for (auto& asignatura : asignaturasMatriculadas) {
             cout << "- " << asignatura->nombre << " (Profesor: " << asignatura->profesorAsignado << ")\n";
-            cout << "  Nota: " << (notas.count(asignatura) ? notas[asignatura] : 0) << "\n";
+            cout << "  Nota: " << (notas.count(asignatura) ? notas[asignatura] : -1) << " (No registrada)\n";
             cout << "  Faltas: " << (faltas.count(asignatura) ? faltas[asignatura] : 0) << "\n";
         }
         cout << endl;
@@ -102,6 +102,7 @@ int main() {
         cout << "8. Salir\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
+        cin.ignore();  
 
         switch(opcion) {
             case 1: {
@@ -133,6 +134,7 @@ int main() {
                 cout << "\nIngrese el numero del profesor para la asignatura: ";
                 int profesorSeleccionado;
                 cin >> profesorSeleccionado;
+                cin.ignore();  
 
                 if (profesorSeleccionado > 0 && profesorSeleccionado <= profesores.size()) {
                     profesorAsignado = profesores[profesorSeleccionado - 1].nombre;
@@ -177,6 +179,7 @@ int main() {
                         cout << "¿Matricular a " << estudianteSeleccionado->nombre << " en la asignatura "
                              << asignatura->nombre << "? (s/n): ";
                         cin >> matricular;
+                        cin.ignore();  // Limpiar el salto de línea pendiente
                         if (matricular == 's' || matricular == 'S') {
                             estudianteSeleccionado->matricularAsignatura(asignatura);  // Asociacion Unidireccional
                         }
@@ -221,14 +224,12 @@ int main() {
                 break;
             }
             case 6: {
-                
                 for (auto& estudiante : estudiantes) {
                     estudiante.mostrarDetalles();
                 }
                 break;
             }
             case 7: {
-               
                 for (auto& profesor : profesores) {
                     profesor.mostrarDetalles();
                 }
