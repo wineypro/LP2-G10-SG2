@@ -1,0 +1,96 @@
+#include <iostream>
+using namespace std;
+
+class Persona {
+protected:
+    string correo;
+
+private:
+    string nombre;
+    int edad;
+    float salario;
+
+public:
+    Persona(string _nombre, int _edad, float _salario, string _correo) {
+        nombre = _nombre;
+
+        while (_edad < 0) {
+            cout << "Edad inválida. Ingrese una edad mayor o igual a 0: ";
+            cin >> _edad;
+        }
+        edad = _edad;
+
+        while (_salario < 0) {
+            cout << "Salario inválido. Ingrese un salario mayor o igual a 0: ";
+            cin >> _salario;
+        }
+        salario = _salario;
+
+        correo = _correo;
+    }
+
+    void mostrarDatos() {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Edad: " << edad << endl;
+        cout << "Salario: $" << salario << endl;
+        cout << "Correo: " << correo << endl;
+    }
+};
+
+class Empleado : public Persona {
+public:
+    Empleado(string _nombre, int _edad, float _salario, string _correo)
+        : Persona(_nombre, _edad, _salario, _correo) {}
+
+    void mostrarCorreo() {
+        cout << "Correo del empleado: " << correo << endl;
+    }
+};
+
+class Cliente : public Persona {
+public:
+    Cliente(string _nombre, int _edad, float _salario, string _correo)
+        : Persona(_nombre, _edad, _salario, _correo) {}
+
+    void mostrarCorreo() {
+        cout << "Correo del cliente: " << correo << endl;
+    }
+};
+
+int main() {
+    string nombre, correo;
+    int edad;
+    float salario;
+
+    cout << "--- Registro de Empleado ---" << endl;
+    cout << "Nombre: ";
+    cin >> nombre;
+    cout << "Edad: ";
+    cin >> edad;
+    cout << "Salario: ";
+    cin >> salario;
+    cout << "Correo: ";
+    cin >> correo;
+    Empleado empleado1(nombre, edad, salario, correo);
+
+    cout << "\n--- Registro de Cliente ---" << endl;
+    cout << "Nombre: ";
+    cin >> nombre;
+    cout << "Edad: ";
+    cin >> edad;
+    cout << "Salario: ";
+    cin >> salario;
+    cout << "Correo: ";
+    cin >> correo;
+    Cliente cliente1(nombre, edad, salario, correo);
+
+    cout << "\n--- Datos del Empleado ---" << endl;
+    empleado1.mostrarDatos();
+    empleado1.mostrarCorreo();
+
+    cout << "\n--- Datos del Cliente ---" << endl;
+    cliente1.mostrarDatos();
+    cliente1.mostrarCorreo();
+
+    return 0;
+}

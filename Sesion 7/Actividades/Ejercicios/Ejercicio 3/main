@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+class Movil {
+protected:
+    string marca;
+    string modelo;
+    string sistemaOperativo;
+
+public:
+    Movil(string _marca, string _modelo, string _sistemaOperativo) {
+        marca = _marca;
+        modelo = _modelo;
+        sistemaOperativo = _sistemaOperativo;
+        cout << "Constructor de Movil llamado" << endl;
+    }
+
+    ~Movil() {
+        cout << "Destructor de Movil llamado" << endl;
+    }
+
+    void mostrarDatos() {
+        cout << "Marca: " << marca << endl;
+        cout << "Modelo: " << modelo << endl;
+        cout << "Sistema Operativo: " << sistemaOperativo << endl;
+    }
+};
+
+class Telefono : public Movil {
+private:
+    bool tiene5G;
+
+public:
+    Telefono(string _marca, string _modelo, string _sistemaOperativo, bool _tiene5G)
+        : Movil(_marca, _modelo, _sistemaOperativo) {
+        tiene5G = _tiene5G;
+        cout << "Constructor de Telefono llamado" << endl;
+    }
+
+    ~Telefono() {
+        cout << "Destructor de Telefono llamado" << endl;
+    }
+
+    void mostrarDatos() {
+        Movil::mostrarDatos();
+        cout << "Soporte 5G: " << (tiene5G ? "Sí" : "No") << endl;
+    }
+};
+
+class Tablet : public Movil {
+private:
+    float tamanoPantalla;
+
+public:
+    Tablet(string _marca, string _modelo, string _sistemaOperativo, float _tamanoPantalla)
+        : Movil(_marca, _modelo, _sistemaOperativo) {
+        tamanoPantalla = _tamanoPantalla;
+        cout << "Constructor de Tablet llamado" << endl;
+    }
+
+    ~Tablet() {
+        cout << "Destructor de Tablet llamado" << endl;
+    }
+
+    void mostrarDatos() {
+        Movil::mostrarDatos();
+        cout << "Tamaño de Pantalla: " << tamanoPantalla << " pulgadas" << endl;
+    }
+};
+
+int main() {
+    string marca, modelo, sistema, respuesta5G;
+    bool tiene5G;
+    float pantalla;
+
+    cout << "--- Registro de Teléfono ---" << endl;
+    cout << "Marca: ";
+    cin >> marca;
+    cout << "Modelo: ";
+    cin >> modelo;
+    cout << "Sistema Operativo: ";
+    cin >> sistema;
+    cout << "¿Tiene 5G? (si/no): ";
+    cin >> respuesta5G;
+    tiene5G = (respuesta5G == "si" || respuesta5G == "SI");
+    Telefono tel(marca, modelo, sistema, tiene5G);
+
+    cout << "\n--- Registro de Tablet ---" << endl;
+    cout << "Marca: ";
+    cin >> marca;
+    cout << "Modelo: ";
+    cin >> modelo;
+    cout << "Sistema Operativo: ";
+    cin >> sistema;
+    cout << "Tamaño de pantalla (pulgadas): ";
+    cin >> pantalla;
+    Tablet tab(marca, modelo, sistema, pantalla);
+
+    cout << "\n--- Datos del Teléfono ---" << endl;
+    tel.mostrarDatos();
+
+    cout << "\n--- Datos de la Tablet ---" << endl;
+    tab.mostrarDatos();
+
+    cout << "\n--- Fin del programa ---" << endl;
+    return 0;
+}
