@@ -1,112 +1,74 @@
 #include <iostream>
 using namespace std;
 
-const double PI = 3.141592653589793;
-
-
-class Figura {
+class Empleado {
+protected:
+    const char* nombre;
 public:
-    virtual void dibujar() const = 0;
-    virtual double calcularArea() const = 0;
-    virtual ~Figura() {}
+    Empleado(const char* n) : nombre(n) {}
+    virtual double calcularSalario() const = 0;
+    virtual void mostrarSalario() const {
+        cout << "Empleado: " << nombre << ", Salario: S/ " << calcularSalario() << endl;
+    }
+    virtual ~Empleado() {}
 };
 
-
-class Circulo : public Figura {
-private:
-    double radio;
-
+class EmpleadoTiempoCompleto : public Empleado {
+    double salarioMensual;
 public:
-    Circulo(double r) : radio(r) {}
+    EmpleadoTiempoCompleto(const char* n, double salario)
+        : Empleado(n), salarioMensual(salario) {}
 
-    void dibujar() const override {
-        cout << "Dibujando un circulo con radio " << radio << endl;
-    }
-
-    double calcularArea() const override {
-        return PI * radio * radio;
+    double calcularSalario() const override {
+        return salarioMensual;
     }
 };
 
-
-class Rectangulo : public Figura {
-private:
-    double ancho;
-    double alto;
-
+class EmpleadoMedioTiempo : public Empleado {
+    double salarioHora;
+    int horas;
 public:
-    Rectangulo(double a, double h) : ancho(a), alto(h) {}
+    EmpleadoMedioTiempo(const char* n, double porHora, int h)
+        : Empleado(n), salarioHora(porHora), horas(h) {}
 
-    void dibujar() const override {
-        cout << "Dibujando un rectangulo de " << ancho << " x " << alto << endl;
-    }
-
-    double calcularArea() const override {
-        return ancho * alto;
+    double calcularSalario() const override {
+        return salarioHora * horas;
     }
 };
-
-
-class Triangulo : public Figura {
-private:
-    double base;
-    double altura;
-
-public:
-    Triangulo(double b, double h) : base(b), altura(h) {}
-
-    void dibujar() const override {
-        cout << "Dibujando un triangulo con base " << base << " y altura " << altura << endl;
-    }
-
-    double calcularArea() const override {
-        return (base * altura) / 2.0;
-    }
-};
-
 
 int main() {
     int opcion;
-    Figura* figura = nullptr;
+    char nombre[50];
+    double salario, porHora;
+    int horas;
 
-    cout << "Selecciona una figura:" << endl;
-    cout << "1. Circulo" << endl;
-    cout << "2. Rectangulo" << endl;
-    cout << "3. Triangulo" << endl;
-    cout << "Opcion: ";
+    cout << "Seleccione tipo de empleado:\n";
+    cout << "1. Tiempo completo\n";
+    cout << "2. Medio tiempo\n";
+    cout << "Opción: ";
     cin >> opcion;
 
+    cout << "Ingrese nombre del empleado: ";
+    cin.ignore();
+    cin.getline(nombre, 50);
+
     if (opcion == 1) {
-        double r;
-        cout << "Ingresa el radio del circulo: ";
-        cin >> r;
-        figura = new Circulo(r);
+        cout << "Ingrese salario mensual en soles: ";
+        cin >> salario;
+        EmpleadoTiempoCompleto empleado(nombre, salario);
+        empleado.mostrarSalario();
     }
     else if (opcion == 2) {
-        double a, h;
-        cout << "Ingresa el ancho del rectangulo: ";
-        cin >> a;
-        cout << "Ingresa el alto del rectangulo: ";
-        cin >> h;
-        figura = new Rectangulo(a, h);
-    }
-    else if (opcion == 3) {
-        double b, h;
-        cout << "Ingresa la base del triangulo: ";
-        cin >> b;
-        cout << "Ingresa la altura del triangulo: ";
-        cin >> h;
-        figura = new Triangulo(b, h);
+        cout << "Ingrese salario por hora en soles: ";
+        cin >> porHora;
+        cout << "Ingrese cantidad de horas trabajadas: ";
+        cin >> horas;
+        EmpleadoMedioTiempo empleado(nombre, porHora, horas);
+        empleado.mostrarSalario();
     }
     else {
-        cout << "Opcion invalida." << endl;
-        return 1;
+        cout << "Opción no válida." << endl;
     }
 
-    cout << endl;
-    figura->dibujar();
-    cout << "Area: " << figura->calcularArea() << endl;
-
-    delete figura;
     return 0;
 }
